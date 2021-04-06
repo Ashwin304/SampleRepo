@@ -5,8 +5,10 @@ import android.util.Log
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.viewModelScope
 import com.example.sampleloginapp.model.User
-import com.facebook.FacebookSdk
+import com.facebook.*
 import com.facebook.FacebookSdk.getApplicationContext
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.coroutines.launch
@@ -32,6 +34,27 @@ class LoginRepository {
         return user
     }
 
+    val loginManager: LoginManager = LoginManager.getInstance()
+    val mCallbackManager = CallbackManager.Factory.create()
 
+    private val mFacebookCallback = object : FacebookCallback<LoginResult> {
+        override fun onSuccess(result: LoginResult?) {
+
+            Log.d(TAG, AccessToken.getCurrentAccessToken().toString())
+
+        }
+
+        override fun onCancel() {
+            Log.d(TAG, "canceled")
+        }
+
+        override fun onError(error: FacebookException?) {
+             Log.d(TAG, error.toString())
+        }
+    }
+
+    init {
+        loginManager.registerCallback(mCallbackManager, mFacebookCallback)
+    }
 
 }

@@ -13,18 +13,20 @@
         tools:context=".ui.LoginActivity">
 
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="200dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center_horizontal"
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginStart="161dp"
-            android:layout_marginTop="171dp"
+            android:layout_marginTop="148dp"
             android:layout_marginEnd="162dp"
+            android:drawableLeft="@drawable/facebook1"
+            android:text="SIGNIN"
+            android:textColor="#1E88E5"
+            android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <Button
             android:id="@+id/signinButton"
@@ -39,14 +41,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_button" />
+            app:layout_constraintTop_toBottomOf="@+id/button" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="156dp"
+            android:layout_marginTop="31dp"
+            android:layout_marginEnd="156dp"
+            android:onClick="@{() -> loginViewModel.Logout()}"
+            android:text="SIGNOUT"
+            android:textColor="#1E88E5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signinButton" />
 
         <TextView
             android:id="@+id/id"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="115dp"
-            android:text="@={loginViewModel.id}"
             android:textSize="20sp"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +72,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="27dp"
-            android:text="@={loginViewModel.name}"
             android:textSize="20sp"
             android:gravity="center"
             android:textColor="@color/black"
@@ -73,10 +86,20 @@
             android:layout_marginTop="29dp"
             android:textSize="20sp"
             android:gravity="center"
-            android:text="@={loginViewModel.email}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name" />
+
+        <TextView
+            android:id="@+id/tvFacebookId"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="34dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

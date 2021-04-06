@@ -13,10 +13,7 @@ import com.example.sampleloginapp.databinding.ActivityLoginBinding
 import com.example.sampleloginapp.repository.LoginRepository
 import com.example.sampleloginapp.viewmodel.LoginViewModel
 import com.example.sampleloginapp.viewmodel.ViewModelFactory
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.FacebookSdk
+import com.facebook.*
 import com.facebook.login.LoginResult
 import java.util.*
 
@@ -28,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var loginDatabinding: ActivityLoginBinding
     lateinit var loginViewModel: LoginViewModel
     val facebook_permissions = mutableListOf("email", "public_profile")
-    val callbackManager = CallbackManager.Factory.create()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,35 +46,23 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-     /*   loginDatabinding.loginButton.setOnClickListener {
-            loginViewModel.loginManager.logInWithReadPermissions(this, facebook_permissions)
-        }*/
+       loginDatabinding.button.setOnClickListener {
+            loginViewModel.facebookLoginManger().logInWithReadPermissions(this, facebook_permissions)
+        }
 
-        val EMAIL = "email"
-        loginDatabinding.loginButton.setReadPermissions(Arrays.asList(EMAIL))
-
-        loginDatabinding.loginButton.registerCallback(callbackManager, object :
-            FacebookCallback<LoginResult?> {
-            override fun onSuccess(loginResult: LoginResult?) {
-                Log.d(TAG, loginResult?.accessToken?.userId.toString())
-
-            }
-
-            override fun onCancel() {
-               Log.d(TAG, "Cancled")
-            }
-
-            override fun onError(exception: FacebookException) {
-                Log.d(TAG, exception.toString())
-            }
-        })
 
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        callbackManager.onActivityResult(requestCode, resultCode, data)
+        loginViewModel.getCallbackManager()?.onActivityResult(requestCode, resultCode, data).also {
+            val userId: String? = AccessToken.getCurrentAccessToken()?.userId
+            if(userId != null) {
+                loginDatabinding.tvFacebookId.text = userId
+            }
+        }
+
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
            val user = loginViewModel.handleGoogleSignIn(data)
