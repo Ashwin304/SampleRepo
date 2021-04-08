@@ -1,4 +1,4 @@
-package com.example.sampleloginapp.model
+package com.example.sampleloginapp.io.model
 
 data class User(val id:String? ,val name: String?, val email: String?) {
 }

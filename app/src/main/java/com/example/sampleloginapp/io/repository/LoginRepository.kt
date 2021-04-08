@@ -1,19 +1,18 @@
-package com.example.sampleloginapp.repository
+package com.example.sampleloginapp.io.repository
 
 import android.content.Intent
 import android.util.Log
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.lifecycle.viewModelScope
-import com.example.sampleloginapp.model.User
+import com.example.sampleloginapp.io.model.NewsResponse
+import com.example.sampleloginapp.io.model.User
+import com.example.sampleloginapp.io.network.NewsApi
 import com.facebook.*
-import com.facebook.FacebookSdk.getApplicationContext
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import kotlinx.coroutines.launch
+import io.reactivex.Observable
 
-class LoginRepository {
+class LoginRepository() {
     private val TAG = "LoginRepository"
 
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -56,5 +55,8 @@ class LoginRepository {
     init {
         loginManager.registerCallback(mCallbackManager, mFacebookCallback)
     }
+
+
+
 
 }

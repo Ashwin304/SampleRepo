@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="newsDetailViewModel"
+            type="com.example.sampleloginapp.viewmodel.NewsDetailViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+
+            <ImageView
+                app:image="@{newsDetailViewModel.newsDetail.urlToImage}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                style="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp">
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/Text"
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@{newsDetailViewModel.newsDetail.title}"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/tvDate"
+                style="@style/Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_calender"
+                android:drawablePadding="15dp"
+                android:paddingTop="10dp"
+                android:gravity="center_vertical"
+                android:text="@{newsDetailViewModel.newsDetail.publishedAt}"
+                />
+            <TextView
+                android:id="@+id/tvDescription"
+                style="@style/Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:paddingTop="10dp"
+                android:text="@{newsDetailViewModel.newsDetail.description}"/>
+            <TextView
+                style="@style/Text"
+                android:id="@+id/tvReadMore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:onClick="@{() -> newsDetailViewModel.onClickReadMore()}"
+                android:text="@string/read_more"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

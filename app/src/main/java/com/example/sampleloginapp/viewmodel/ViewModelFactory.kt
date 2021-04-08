@@ -2,7 +2,7 @@ package com.example.sampleloginapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.sampleloginapp.repository.LoginRepository
+import com.example.sampleloginapp.io.repository.LoginRepository
 
 class ViewModelFactory(
         private val repository: LoginRepository
