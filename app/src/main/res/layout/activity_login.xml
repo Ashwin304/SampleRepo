@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.LoginActivity">
+        tools:context=".ui.view.LoginActivity">
 
 
         <Button
@@ -21,7 +21,7 @@
             android:layout_marginTop="148dp"
             android:layout_marginEnd="162dp"
             android:drawableLeft="@drawable/facebook1"
-            android:text="SIGNIN"
+            android:text="@string/signin"
             android:textColor="#1E88E5"
             android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,25 +36,13 @@
             android:layout_marginTop="64dp"
             android:layout_marginEnd="106dp"
             android:drawableLeft="@drawable/google"
-            android:text="SIGNIN"
+            android:text="@string/signin"
             android:textColor="#1E88E5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="156dp"
-            android:layout_marginTop="31dp"
-            android:layout_marginEnd="156dp"
-            android:onClick="@{() -> loginViewModel.Logout()}"
-            android:text="SIGNOUT"
-            android:textColor="#1E88E5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signinButton" />
 
         <TextView
             android:id="@+id/id"
