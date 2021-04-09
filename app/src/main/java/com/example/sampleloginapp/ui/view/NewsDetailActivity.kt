@@ -13,11 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 
 import com.example.sampleloginapp.R
 import com.example.sampleloginapp.databinding.ActivityNewsDetailBinding
-import com.example.sampleloginapp.io.model.Article
+import com.example.sampleloginapp.io.db.Article
+import com.example.sampleloginapp.utils.ARTICLE
+import com.example.sampleloginapp.utils.URL
 import com.example.sampleloginapp.viewmodel.NewsDetailViewModel
 
 class NewsDetailActivity : AppCompatActivity() {
-    private val TAG = "NewsDetailActivity"
+
 
     lateinit var newsDetailViewModel: NewsDetailViewModel
     lateinit var newsDetailBinding: ActivityNewsDetailBinding
@@ -27,13 +29,13 @@ class NewsDetailActivity : AppCompatActivity() {
         initViewModel()
         initActionBar()
 
-        val item: Article? = intent.getParcelableExtra("article")
+        val item: Article? = intent.getParcelableExtra(ARTICLE)
         newsDetailViewModel.getNewsDetail(item)
 
         newsDetailViewModel.url.observe(this, Observer {
             url ->
             val intent = Intent(this, WebViewActivity::class.java).also {
-                it.putExtra("url", url)
+                it.putExtra(URL, url)
             }
             startActivity(intent)
         })

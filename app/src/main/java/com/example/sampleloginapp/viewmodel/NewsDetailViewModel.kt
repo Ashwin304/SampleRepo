@@ -2,7 +2,8 @@ package com.example.sampleloginapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.sampleloginapp.io.model.Article
+import com.example.sampleloginapp.io.db.Article
+
 
 class NewsDetailViewModel(): ViewModel() {
 

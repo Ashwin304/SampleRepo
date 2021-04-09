@@ -58,7 +58,8 @@
                 android:drawablePadding="15dp"
                 android:paddingTop="10dp"
                 android:gravity="center_vertical"
-                android:text="@{newsDetailViewModel.newsDetail.publishedAt}"
+                app:norm_date="@{newsDetailViewModel.newsDetail.publishedAt}"
+
                 />
             <TextView
                 android:id="@+id/tvDescription"
@@ -68,17 +69,18 @@
                 android:textSize="18sp"
                 android:paddingTop="10dp"
                 android:text="@{newsDetailViewModel.newsDetail.description}"/>
-            <TextView
-                style="@style/Text"
-                android:id="@+id/tvReadMore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:onClick="@{() -> newsDetailViewModel.onClickReadMore()}"
-                android:text="@string/read_more"
-                />
+
 
         </LinearLayout>
+        <TextView
+            style="@style/Text"
+            android:id="@+id/tvReadMore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:layout_marginBottom="15dp"
+            android:onClick="@{() -> newsDetailViewModel.onClickReadMore()}"
+            android:text="@string/read_more" />
     </LinearLayout>
 
 </layout>

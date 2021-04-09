@@ -13,9 +13,7 @@ class LoginViewModel(val repository: LoginRepository): ViewModel() {
 
     val id = MutableLiveData<String>()
     val name = MutableLiveData<String>()
-    val email = MutableLiveData<String>()
 
-    private val TAG = "LoginViewModel"
 
 
     fun googleLogin(): Intent{
@@ -32,12 +30,6 @@ class LoginViewModel(val repository: LoginRepository): ViewModel() {
 
     fun getCallbackManager(): CallbackManager? {
         return repository.mCallbackManager
-    }
-
-
-    fun Logout(){
-
-        repository.mGoogleSignClient.signOut()
     }
 
 

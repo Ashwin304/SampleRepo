@@ -6,11 +6,10 @@
     <data>
         <variable
             name="newsModel"
-            type="com.example.sampleloginapp.io.model.Article" />
+            type="com.example.sampleloginapp.io.db.Article" />
         <variable
             name="newsItemClicked"
             type="com.example.sampleloginapp.ui.adapter.NewsRecyclerViewAdapter.NewsItemClickeListener" />
-
 
     </data>
 
@@ -21,8 +20,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:onClick="@{() -> newsItemClicked.onNewsItemClicked(newsModel)}"
-        >
+        android:onClick="@{() -> newsItemClicked.onNewsItemClicked(newsModel)}">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -41,25 +39,26 @@
                 />
 
             <TextView
-                style="@style/Text"
                 android:id="@+id/textView"
+                style="@style/Text"
                 android:layout_width="255dp"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:layout_height="75dp"
                 android:padding="5dp"
                 android:paddingStart="10dp"
                 android:text="@{newsModel.title}"
+                android:textSize="@dimen/textSize"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/textView2"
                 style="@style/Text"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginStart="110dp"
                 android:layout_marginBottom="5dp"
-                android:text="@{newsModel.publishedAt}"
+                app:date="@{newsModel.publishedAt}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -74,7 +73,8 @@
                 android:background="@drawable/favourite_togglebutton"
                 android:textOff=""
                 android:textOn=""
-                android:onClick="@{() -> newsItemClicked.onFavouriteClicked(newsModel)}"
+                android:checked="@{newsModel.favourite}"
+                android:onClick="@{() -> newsItemClicked.onFavouriteClicked(newsModel, newsModel.favourite)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

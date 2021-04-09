@@ -2,9 +2,11 @@ package com.example.sampleloginapp.io.repository
 
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import com.example.sampleloginapp.io.model.NewsResponse
 import com.example.sampleloginapp.io.model.User
 import com.example.sampleloginapp.io.network.NewsApi
+import com.example.sampleloginapp.utils.CANCEL
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -44,7 +46,7 @@ class LoginRepository() {
         }
 
         override fun onCancel() {
-            Log.d(TAG, "canceled")
+            Log.d(TAG, CANCEL)
         }
 
         override fun onError(error: FacebookException?) {

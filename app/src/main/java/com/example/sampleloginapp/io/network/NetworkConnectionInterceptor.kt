@@ -2,6 +2,7 @@ package com.example.sampleloginapp.io.network
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.example.sampleloginapp.utils.INTERNT_CONNECTION
 import com.example.sampleloginapp.utils.NoInternetException
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -11,7 +12,7 @@ class NetworkConnectionInterceptor(context: Context): Interceptor {
     val applicationContext = context.applicationContext
     override fun intercept(chain: Interceptor.Chain): Response {
         if(!isInternetAvailable())
-            throw NoInternetException("Make sure you have an active data connection")
+            throw NoInternetException(INTERNT_CONNECTION)
         return chain.proceed(chain.request())
     }
 
