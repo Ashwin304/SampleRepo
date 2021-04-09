@@ -38,25 +38,25 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp">
+            android:paddingStart="@dimen/padding_15"
+            android:paddingEnd="@dimen/padding_15">
             <TextView
                 android:id="@+id/tvTitle"
                 style="@style/Text"
-                android:paddingTop="10dp"
+                android:paddingTop="@dimen/padding_10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:text="@{newsDetailViewModel.newsDetail.title}"
-                android:textSize="25sp" />
+                android:textSize="@dimen/textSize_25" />
             <TextView
                 android:id="@+id/tvDate"
                 style="@style/Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_calender"
-                android:drawablePadding="15dp"
-                android:paddingTop="10dp"
+                android:drawablePadding="@dimen/padding_15"
+                android:paddingTop="@dimen/padding_10"
                 android:gravity="center_vertical"
                 app:norm_date="@{newsDetailViewModel.newsDetail.publishedAt}"
 
@@ -77,8 +77,8 @@
             android:id="@+id/tvReadMore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="15dp"
-            android:layout_marginBottom="15dp"
+            android:paddingStart="@dimen/padding_15"
+            android:layout_marginBottom="@dimen/padding_15"
             android:onClick="@{() -> newsDetailViewModel.onClickReadMore()}"
             android:text="@string/read_more" />
     </LinearLayout>
