@@ -7,14 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.example.sampleloginapp.R
 import com.example.sampleloginapp.databinding.FragmentLoginBinding
 import com.example.sampleloginapp.io.repository.LoginRepository
-import com.example.sampleloginapp.utils.CallBackInterface
 import com.example.sampleloginapp.utils.Constants
 import com.example.sampleloginapp.utils.SharedPreference
 import com.example.sampleloginapp.viewmodel.LoginViewModel
@@ -26,11 +27,10 @@ import com.facebook.FacebookSdk.getApplicationContext
 
 class LoginFragment : Fragment() {
 
-    private lateinit var callBackInterface: CallBackInterface
+
     lateinit var loginDatabinding: FragmentLoginBinding
     lateinit var loginViewModel: LoginViewModel
     lateinit var sharedPreferences: SharedPreference
-    val newsFragment = NewsFragment()
     val constants = Constants()
     val facebook_permissions = mutableListOf(constants.EMAIL, constants.PROFILE)
 
@@ -46,9 +46,16 @@ class LoginFragment : Fragment() {
         initActionBar()
         loginCheck()
 
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+         requireActivity().finish()
+        }
+
+
+
         loginDatabinding.signinButton.setOnClickListener {
             loginViewModel.googleLogin().also{
                 startActivityForResult(it, constants.RC_SIGN_IN)
+
             }
         }
 
@@ -59,9 +66,7 @@ class LoginFragment : Fragment() {
     }
 
 
-    fun setCallBackInterface(callBackInterface: CallBackInterface) {
-        this.callBackInterface = callBackInterface
-    }
+
 
     private fun initViewModel() {
         val repository = LoginRepository()
@@ -77,7 +82,8 @@ class LoginFragment : Fragment() {
         val accessToken: AccessToken? = AccessToken.getCurrentAccessToken()
         //navigate to newsFragment
        if (!userId.isNullOrEmpty() || !accessToken?.token.isNullOrEmpty()) {
-           callBackInterface.callBackMethod(newsFragment)
+
+           findNavController().navigate(R.id.action_loginFragment_to_newsFragment)
         }
     }
     private fun initActionBar() {
@@ -100,7 +106,7 @@ class LoginFragment : Fragment() {
                 }
                 else -> {
                     sharedPreferences.saveUserId(user.id.toString())
-                    callBackInterface.callBackMethod(newsFragment)
+                    findNavController().navigate(R.id.action_loginFragment_to_newsFragment)
                 }
             }
 
@@ -108,11 +114,14 @@ class LoginFragment : Fragment() {
             loginViewModel.getCallbackManager()?.onActivityResult(requestCode, resultCode, data).also {
                 val userId: String? = AccessToken.getCurrentAccessToken()?.userId
                 if(userId != null) {
-                    callBackInterface.callBackMethod(newsFragment)
+
+                    findNavController().navigate(R.id.action_loginFragment_to_newsFragment)
                 }
             }
 
         }
     }
+
+
 
 }

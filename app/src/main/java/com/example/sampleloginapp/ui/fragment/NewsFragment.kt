@@ -2,39 +2,29 @@ package com.example.sampleloginapp.ui.fragment
 
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuItemCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sampleloginapp.NewsApplication
 import com.example.sampleloginapp.R
 import com.example.sampleloginapp.databinding.FragmentNewsBinding
 import com.example.sampleloginapp.io.db.Article
 import com.example.sampleloginapp.io.db.NewsDatabase
-import com.example.sampleloginapp.io.network.NetworkConnectionInterceptor
 import com.example.sampleloginapp.io.network.NewsApi
 import com.example.sampleloginapp.io.repository.NewsRepository
 import com.example.sampleloginapp.ui.adapter.NewsRecyclerViewAdapter
-import com.example.sampleloginapp.ui.view.HomeActivity
-import com.example.sampleloginapp.utils.CallBackInterface
 import com.example.sampleloginapp.utils.Constants
+import com.example.sampleloginapp.utils.NewsItemClickeListener
 import com.example.sampleloginapp.utils.SharedPreference
 import com.example.sampleloginapp.viewmodel.NewsViewModel
 import com.example.sampleloginapp.viewmodel.NewsViewModelFactory
@@ -43,12 +33,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 
-class NewsFragment : Fragment(), NewsRecyclerViewAdapter.NewsItemClickeListener {
+class NewsFragment : Fragment(), NewsItemClickeListener {
 
 
     lateinit var newsViewModel: NewsViewModel
     var boolean = true
-    lateinit var fragmentTransaction: FragmentTransaction
     lateinit var linearLayoutManager: LinearLayoutManager
     lateinit var adapter: NewsRecyclerViewAdapter
     lateinit var sharedPreference: SharedPreference
@@ -66,7 +55,7 @@ class NewsFragment : Fragment(), NewsRecyclerViewAdapter.NewsItemClickeListener 
         setHasOptionsMenu(true)
         initActionBar()
 
-        sharedPreference = SharedPreference(context!!)
+        sharedPreference = SharedPreference(requireContext())
 
         initRecyclerView()
 
@@ -94,7 +83,14 @@ class NewsFragment : Fragment(), NewsRecyclerViewAdapter.NewsItemClickeListener 
         return newsDatabinding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            requireActivity().finish()
+
+        }
+    }
 
 
 
@@ -106,7 +102,8 @@ class NewsFragment : Fragment(), NewsRecyclerViewAdapter.NewsItemClickeListener 
                 sharedPreference.saveUserId("")
                 logoutGoogle()
                 newsViewModel.deleteAllFavourite()
-                startActivity(Intent(context, HomeActivity::class.java))
+
+                findNavController().navigate(R.id.action_newsFragment_to_loginFragment)
             }
         }
 
@@ -121,7 +118,7 @@ class NewsFragment : Fragment(), NewsRecyclerViewAdapter.NewsItemClickeListener 
         val args = Bundle()
         args.putParcelable(Constants().ARTICLE,  article)
         newsDetailFragment.setArguments(args)
-        initFragmentTransaction(newsDetailFragment)
+        findNavController().navigate(R.id.action_newsFragment_to_newsDetailFragment, args)
 
     }
 
@@ -134,23 +131,18 @@ class NewsFragment : Fragment(), NewsRecyclerViewAdapter.NewsItemClickeListener 
         return recyclerView
     }
 
-    private fun initFragmentTransaction(fragment: Fragment) {
-        val fragmentManager: FragmentManager = activity!!.supportFragmentManager
-        fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout,fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
 
     override fun onFavouriteClicked(article: Article, favourite: Boolean) {
         if (favourite == false) {
             val news = Article(article.title, article.description, article.url, article.urlToImage, article.publishedAt, true)
             newsViewModel.updateFavourite(news!!)
+             newsViewModel.getAllNews()
             boolean = false
         } else {
 
-        val news = Article(article.title, article.description, article.url, article.urlToImage, article.publishedAt, false)
-        newsViewModel.deleteFavourite(news)
+            val news = Article(article.title, article.description, article.url, article.urlToImage, article.publishedAt, false)
+            newsViewModel.deleteFavourite(news)
+            newsViewModel.getAllNews()
     }
 }
 
@@ -179,11 +171,10 @@ class NewsFragment : Fragment(), NewsRecyclerViewAdapter.NewsItemClickeListener 
 
     private fun initViewModel() {
 
-        val interceptor = NetworkConnectionInterceptor(context!!)
-        val newsApi = NewsApi(interceptor)
-        val db = NewsDatabase(context!!)
+        val newsApi = NewsApi()
+        val db = NewsDatabase(requireContext())
         val repository = NewsRepository(newsApi,db)
-        val factory = NewsViewModelFactory(activity!!.application, repository)
+        val factory = NewsViewModelFactory(requireActivity().application, repository)
         newsViewModel = ViewModelProvider(this, factory).get(NewsViewModel::class.java)
 
         newsDatabinding.newsViewModel = newsViewModel
@@ -195,7 +186,7 @@ class NewsFragment : Fragment(), NewsRecyclerViewAdapter.NewsItemClickeListener 
     private fun initActionBar() {
        val toolbar: Toolbar = newsDatabinding.toolbar
         (activity as AppCompatActivity?)!!.setSupportActionBar(toolbar)
-        val acttionBar = (activity as AppCompatActivity?)!!.supportActionBar
+
 
     }
 
@@ -205,7 +196,7 @@ class NewsFragment : Fragment(), NewsRecyclerViewAdapter.NewsItemClickeListener 
         val filterPattern = text.toString().toLowerCase().trim()
         for (s in newsViewModel.favouriteNews.value!!) {
 
-            if (s.title!!.toLowerCase().contains(filterPattern)) {
+            if (s.title!!.toLowerCase().startsWith(filterPattern)) {
                 filterdArticle.add(s)
             }
         }
@@ -218,17 +209,10 @@ class NewsFragment : Fragment(), NewsRecyclerViewAdapter.NewsItemClickeListener 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .build()
 
-        val mGoogleApiClient = GoogleSignIn.getClient(context!!, gso)
+        val mGoogleApiClient = GoogleSignIn.getClient(requireContext(), gso)
         mGoogleApiClient.signOut()
     }
 
-    fun isInternetAvailable(): Boolean {
-
-        val connectivityManager: ConnectivityManager = context?.applicationContext?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        connectivityManager.activeNetworkInfo.also {
-            return it != null && it.isConnected
-        }
-    }
 
 
 }

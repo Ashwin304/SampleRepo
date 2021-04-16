@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
    id 'kotlin-android-extensions'
+   id 'androidx.navigation.safeargs.kotlin'
 
 }
 
@@ -91,7 +92,7 @@ dependencies {
     // optional - Kotlin Extensions and Coroutines support for Room
 
     //room Database
-    def room_version = "2.2.5"
+    def room_version = "2.2.6"
 
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"

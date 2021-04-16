@@ -1,20 +1,18 @@
 package com.example.sampleloginapp.io.repository
 
-import android.app.Activity
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
-import com.example.sampleloginapp.io.model.NewsResponse
 import com.example.sampleloginapp.io.model.User
 import com.example.sampleloginapp.utils.Constants
-import com.facebook.*
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.FacebookSdk.getApplicationContext
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import io.reactivex.Observable
 
 class LoginRepository() {
 
@@ -65,7 +63,6 @@ class LoginRepository() {
     init {
         loginManager.registerCallback(mCallbackManager, mFacebookCallback)
     }
-
 
 
 

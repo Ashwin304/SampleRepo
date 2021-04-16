@@ -10,7 +10,7 @@ import io.reactivex.Flowable
 class NewsRepository(val newsApi: NewsApi,val db: NewsDatabase) {
 
     fun getNews(sources: String,  apiKey: String): Flowable<NewsResponse> {
-        Log.d("interceptor", "chain.toString()")
+
        return  newsApi.getNews(sources, apiKey)
 
     }

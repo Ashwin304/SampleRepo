@@ -24,9 +24,8 @@ interface NewsApi {
 
 
     companion object{
-        operator fun invoke(interceptor: NetworkConnectionInterceptor): NewsApi {
+        operator fun invoke(): NewsApi {
             val okHttpClient = OkHttpClient.Builder()
-                .addNetworkInterceptor(interceptor)
                 .build()
 
             return Retrofit.Builder()

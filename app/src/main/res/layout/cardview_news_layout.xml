@@ -9,7 +9,7 @@
             type="com.example.sampleloginapp.io.db.Article" />
         <variable
             name="newsItemClicked"
-            type="com.example.sampleloginapp.ui.adapter.NewsRecyclerViewAdapter.NewsItemClickeListener" />
+            type="com.example.sampleloginapp.utils.NewsItemClickeListener" />
 
     </data>
 

@@ -24,7 +24,7 @@ class WebviewFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-         value = arguments!!.getString(Constants().URL)!!
+         value = requireArguments().getString(Constants().URL)!!
 
         return inflater.inflate(R.layout.fragment_webview, container, false)
     }

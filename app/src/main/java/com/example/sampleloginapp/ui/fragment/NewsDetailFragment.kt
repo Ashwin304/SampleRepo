@@ -13,10 +13,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.sampleloginapp.R
 import com.example.sampleloginapp.databinding.FragmentNewsDetailBinding
 import com.example.sampleloginapp.io.db.Article
-import com.example.sampleloginapp.utils.CallBackInterface
 import com.example.sampleloginapp.utils.Constants
 import com.example.sampleloginapp.viewmodel.NewsDetailViewModel
 import kotlinx.android.synthetic.main.fragment_news_detail.*
@@ -26,7 +26,6 @@ class NewsDetailFragment : Fragment() {
 
     lateinit var newsDetailViewModel: NewsDetailViewModel
     lateinit var newsDetailBinding: FragmentNewsDetailBinding
-    lateinit var fragmentTransaction: FragmentTransaction
     private var boolean = false
 
 
@@ -39,7 +38,7 @@ class NewsDetailFragment : Fragment() {
         initViewModel()
 
         initActionBar()
-        val value = arguments!!.getParcelable<Article>(Constants().ARTICLE)
+        val value = requireArguments().getParcelable<Article>(Constants().ARTICLE)
         newsDetailViewModel.getNewsDetail(value)
 
         newsDetailBinding.toolbar.setNavigationOnClickListener {
@@ -50,16 +49,16 @@ class NewsDetailFragment : Fragment() {
             url ->
 
             if(!boolean) {
+                val args = Bundle()
+                args.putString(Constants().URL, url)
+                findNavController().navigate(R.id.action_newsDetailFragment_to_webviewFragment, args)
 
-                initFragmentTransaction(url)
                 boolean = true
             }
 
         })
         return newsDetailBinding.root
     }
-
-
 
 
     override fun onResume() {
@@ -79,20 +78,6 @@ class NewsDetailFragment : Fragment() {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
 
     }
-
-    private fun initFragmentTransaction(url: String?) {
-        val newsDetailFragment = WebviewFragment()
-        val args = Bundle()
-        args.putString(Constants().URL, url)
-        newsDetailFragment.setArguments(args)
-
-        val fragmentManager: FragmentManager = activity!!.supportFragmentManager
-        fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout, newsDetailFragment, null)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
-
 
 
 
