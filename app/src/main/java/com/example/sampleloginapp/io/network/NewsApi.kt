@@ -1,12 +1,9 @@
 package com.example.sampleloginapp.io.network
 
 
+import android.util.Log
 import com.example.sampleloginapp.io.model.NewsResponse
-
-import com.example.sampleloginapp.utils.API
-import com.example.sampleloginapp.utils.BASE_URL
-import com.example.sampleloginapp.utils.SOURCES
-import com.example.sampleloginapp.utils.SUB_URL
+import com.example.sampleloginapp.utils.Constants
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
@@ -17,10 +14,10 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NewsApi {
-    @GET(SUB_URL)
+    @GET("top-headlines")
     fun getNews(
-            @Query(SOURCES) sources: String,
-            @Query(API) apiKey: String
+            @Query("sources") sources: String,
+            @Query("apiKey") apiKey: String
     ): Flowable<NewsResponse>
 
 
@@ -34,7 +31,7 @@ interface NewsApi {
 
             return Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(BASE_URL)
+                .baseUrl(Constants().BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()

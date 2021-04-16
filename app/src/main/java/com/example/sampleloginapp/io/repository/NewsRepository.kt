@@ -1,5 +1,6 @@
 package com.example.sampleloginapp.io.repository
 
+import android.util.Log
 import com.example.sampleloginapp.io.db.Article
 import com.example.sampleloginapp.io.db.NewsDatabase
 import com.example.sampleloginapp.io.model.NewsResponse
@@ -9,6 +10,7 @@ import io.reactivex.Flowable
 class NewsRepository(val newsApi: NewsApi,val db: NewsDatabase) {
 
     fun getNews(sources: String,  apiKey: String): Flowable<NewsResponse> {
+        Log.d("interceptor", "chain.toString()")
        return  newsApi.getNews(sources, apiKey)
 
     }

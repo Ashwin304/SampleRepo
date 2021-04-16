@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
-private const val GOOGLE_USER_ID = "userId"
+
 
 
 class SharedPreference(context: Context)  {
@@ -17,13 +17,13 @@ class SharedPreference(context: Context)  {
 
     fun saveUserId(token: String?){
         val editor:SharedPreferences.Editor =  preference.edit()
-        editor.putString(GOOGLE_USER_ID, token)
+        editor.putString(Constants().GOOGLE_USER_ID, token)
         editor.apply()
         editor.commit()
     }
 
     fun getUserId(): String? {
-        return preference.getString(GOOGLE_USER_ID, null)
+        return preference.getString(Constants().GOOGLE_USER_ID, null)
 
     }
 

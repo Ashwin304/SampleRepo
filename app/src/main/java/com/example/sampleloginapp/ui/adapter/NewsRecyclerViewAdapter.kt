@@ -4,6 +4,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sampleloginapp.R
 import com.example.sampleloginapp.databinding.CardviewNewsLayoutBinding
@@ -11,7 +13,7 @@ import com.example.sampleloginapp.io.db.Article
 
 import kotlinx.android.synthetic.main.cardview_news_layout.view.*
 
-class NewsRecyclerViewAdapter(var articles: List<Article>, val listener: NewsItemClickeListener) : RecyclerView.Adapter<NewsRecyclerViewAdapter.NewsHolder>(){
+class NewsRecyclerViewAdapter( val listener: NewsItemClickeListener) : RecyclerView.Adapter<NewsRecyclerViewAdapter.NewsHolder>(){
 
     class NewsHolder(val newsLayoutBinding: CardviewNewsLayoutBinding): RecyclerView.ViewHolder(newsLayoutBinding.root) {
 
@@ -29,12 +31,12 @@ class NewsRecyclerViewAdapter(var articles: List<Article>, val listener: NewsIte
     }
 
     override fun getItemCount(): Int {
-        return articles?.size
+        return differ.currentList.size
     }
 
     override fun onBindViewHolder(holder: NewsHolder, position: Int) {
 
-        holder.bind(articles?.get(position), listener)
+        holder.bind(differ.currentList.get(position), listener)
 
         val button = holder.itemView.btn_favourite
         if(button.isChecked){
@@ -43,6 +45,20 @@ class NewsRecyclerViewAdapter(var articles: List<Article>, val listener: NewsIte
 
     }
 
+    private val differCallback = object : DiffUtil.ItemCallback<Article>() {
+        override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+            return oldItem.url == newItem.url
+        }
+
+        override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    var differ = AsyncListDiffer(this, differCallback)
+
+
+
     interface NewsItemClickeListener{
         fun onNewsItemClicked(article: Article)
         fun onFavouriteClicked(article: Article, favourite: Boolean)
@@ -50,7 +66,7 @@ class NewsRecyclerViewAdapter(var articles: List<Article>, val listener: NewsIte
 
 
     fun filterList(filterdArticle: ArrayList<Article>){
-        this.articles = filterdArticle
+      //  this.differ.currentList = filterdArticle
         notifyDataSetChanged()
     }
 

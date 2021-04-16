@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.sampleloginapp.ui.fragment.LoginFragment"
+        android:label="LoginFragment" />
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.example.sampleloginapp.ui.fragment.NewsFragment"
+        android:label="NewsFragment" />
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.example.sampleloginapp.ui.fragment.NewsDetailFragment"
+        android:label="NewsDetailFragment" />
+    <fragment
+        android:id="@+id/webviewFragment"
+        android:name="com.example.sampleloginapp.ui.fragment.WebviewFragment"
+        android:label="WebviewFragment" />
+</navigation>

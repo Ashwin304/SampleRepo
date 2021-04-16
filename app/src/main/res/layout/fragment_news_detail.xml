@@ -66,8 +66,8 @@
                 style="@style/Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:paddingTop="10dp"
+                android:textSize="@dimen/textSize_18"
+                android:paddingTop="@dimen/padding_10"
                 android:text="@{newsDetailViewModel.newsDetail.description}"/>
 
 

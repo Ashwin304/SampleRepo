@@ -20,7 +20,7 @@ class LoginViewModel(val repository: LoginRepository): ViewModel() {
         return repository.googleLogin()
     }
 
-    fun handleGoogleSignIn(data: Intent?): User{
+    fun handleGoogleSignIn(data: Intent?): User?{
      return repository.handleGoogleSignInResult(data)
     }
 

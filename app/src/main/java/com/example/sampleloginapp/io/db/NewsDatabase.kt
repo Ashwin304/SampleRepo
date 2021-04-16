@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.sampleloginapp.utils.DATABASE_NAME
+import com.example.sampleloginapp.utils.Constants
+
 
 
 
@@ -34,7 +35,7 @@ abstract class NewsDatabase: RoomDatabase() {
             Room.databaseBuilder<NewsDatabase>(
                 context.applicationContext,
                 NewsDatabase::class.java,
-                    DATABASE_NAME
+                    Constants().DATABASE_NAME
             ).build()
     }
 
