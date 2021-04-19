@@ -133,16 +133,18 @@ class NewsFragment : Fragment(), NewsItemClickeListener {
 
 
     override fun onFavouriteClicked(article: Article, favourite: Boolean) {
-        if (favourite == false) {
+        when (favourite) {
+            false -> {
             val news = Article(article.title, article.description, article.url, article.urlToImage, article.publishedAt, true)
             newsViewModel.updateFavourite(news!!)
-             newsViewModel.getAllNews()
+            newsViewModel.getAllNews()
             boolean = false
-        } else {
-
+        }
+            true ->{
             val news = Article(article.title, article.description, article.url, article.urlToImage, article.publishedAt, false)
             newsViewModel.deleteFavourite(news)
             newsViewModel.getAllNews()
+        }
     }
 }
 

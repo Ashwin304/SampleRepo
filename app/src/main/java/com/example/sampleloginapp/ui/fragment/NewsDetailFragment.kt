@@ -52,7 +52,6 @@ class NewsDetailFragment : Fragment() {
                 val args = Bundle()
                 args.putString(Constants().URL, url)
                 findNavController().navigate(R.id.action_newsDetailFragment_to_webviewFragment, args)
-
                 boolean = true
             }
 
