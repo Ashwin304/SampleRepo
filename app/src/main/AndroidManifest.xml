@@ -12,9 +12,11 @@
         android:name=".NewsApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SampleLoginApp">
+        android:theme="@style/Theme.SampleLoginApp"
+        >
         <activity android:name=".ui.view.HomeActivity"
-            android:theme="@style/Theme.NewsDetail">
+            android:theme="@style/Theme.NewsDetail"
+            >
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 

@@ -76,12 +76,15 @@ class NewsFragment : Fragment(), NewsItemClickeListener {
 
         })
 
-        newsViewModel.favouriteNews.observe(viewLifecycleOwner, Observer {
-            newsDatabinding.progressBar.visibility = View.GONE
-            adapter.differ.submitList(it)
-        })
-        return newsDatabinding.root
-    }
+
+            newsViewModel.favouriteNews.observe(viewLifecycleOwner, Observer {
+                newsDatabinding.progressBar.visibility = View.GONE
+                adapter.differ.submitList(it)
+            })
+
+            return newsDatabinding.root
+        }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -133,17 +136,19 @@ class NewsFragment : Fragment(), NewsItemClickeListener {
 
 
     override fun onFavouriteClicked(article: Article, favourite: Boolean) {
+
         when (favourite) {
             false -> {
-            val news = Article(article.title, article.description, article.url, article.urlToImage, article.publishedAt, true)
-            newsViewModel.updateFavourite(news!!)
-            newsViewModel.getAllNews()
-            boolean = false
+               val news = Article(article.title, article.description, article.url, article.urlToImage, article.publishedAt, true)
+
+                newsViewModel.updateFavourite(news!!)
+                newsViewModel.getAllNews()
         }
-            true ->{
+           true ->{
             val news = Article(article.title, article.description, article.url, article.urlToImage, article.publishedAt, false)
-            newsViewModel.deleteFavourite(news)
-            newsViewModel.getAllNews()
+               newsViewModel.deleteFavourite(news)
+               newsViewModel.getAllNews()
+
         }
     }
 }
