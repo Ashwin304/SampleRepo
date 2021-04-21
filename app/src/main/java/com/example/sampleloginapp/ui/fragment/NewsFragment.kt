@@ -51,11 +51,12 @@ class NewsFragment : Fragment(), NewsItemClickeListener {
     ): View? {
 
         newsDatabinding = DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false)
+        sharedPreference = SharedPreference(requireContext())
         initViewModel()
         setHasOptionsMenu(true)
         initActionBar()
 
-        sharedPreference = SharedPreference(requireContext())
+
 
         initRecyclerView()
 
@@ -104,8 +105,7 @@ class NewsFragment : Fragment(), NewsItemClickeListener {
                 LoginManager.getInstance().logOut()
                 sharedPreference.saveUserId("")
                 logoutGoogle()
-                newsViewModel.deleteAllFavourite()
-
+                //newsViewModel.deleteAllFavourite()
                 findNavController().navigate(R.id.action_newsFragment_to_loginFragment)
             }
         }
@@ -179,7 +179,7 @@ class NewsFragment : Fragment(), NewsItemClickeListener {
     private fun initViewModel() {
 
         val newsApi = NewsApi()
-        val db = NewsDatabase(requireContext())
+        val db = NewsDatabase(requireContext(), sharedPreference.getUserId()!!)
         val repository = NewsRepository(newsApi,db)
         val factory = NewsViewModelFactory(requireActivity().application, repository)
         newsViewModel = ViewModelProvider(this, factory).get(NewsViewModel::class.java)

@@ -4,7 +4,7 @@ public class Constants() {
    val TAG = "tag"
    val EMAIL = "email"
    val PROFILE = "public_profile"
-   val DATABASE_NAME = "AppDatabas.db"
+   val DATABASE_NAME = "AppDatabase"
    val INTERNT_CONNECTION = "Make sure you have an active data connection"
    val BASE_URL = "https://newsapi.org/v2/"
    val CANCEL = "Login Canceled"
